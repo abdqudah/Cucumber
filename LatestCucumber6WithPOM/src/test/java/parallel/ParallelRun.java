@@ -12,7 +12,7 @@ import io.cucumber.testng.CucumberOptions;
 				}, 
 		monochrome = true,
 		glue = { "parallel" },
-		features = { "src/test/resources/parallel" }, tags ="not @Skip"
+		features = { "src/test/resources/parallel" }
 		//, tags = "@accounts"
 )
 

@@ -1,10 +1,18 @@
 package parallel;
 
+import java.io.IOException;
+import java.util.Properties;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.junit.Assert;
+import org.junit.Before;
+import org.testng.annotations.BeforeTest;
 
 import com.pages.LoginPage;
 import com.qa.factory.DriverFactory;
 import com.qa.util.ConfigReader;
+import com.qa.util.RestClient;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,12 +22,39 @@ public class LoginPageSteps {
 
 	private static String title;
 	private LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+	
+	
+	RestClient restClient;
+    CloseableHttpResponse closeableHttpResponse ;
+    String serivceUrl;
+   	String apiUrl;
+    String url;
+    
+    private ConfigReader configReader = new ConfigReader();
+    Properties prop = configReader.init_prop();
+    
+    
 
+	
 	@Given("user is on login page")
-	public void user_is_on_login_page() {
+	public void user_is_on_login_page() throws ClientProtocolException, IOException  {
 
 		DriverFactory.getDriver()
 				.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+		
+		
+		serivceUrl = prop.getProperty("WebserviceURL");
+		apiUrl = prop.getProperty("serviceURL");
+		url = serivceUrl + apiUrl;
+		
+		restClient = new RestClient();
+		closeableHttpResponse = restClient.get(url);
+		
+		int statusCode = closeableHttpResponse.getStatusLine().getStatusCode();
+		System.out.println(statusCode);
+		
+		
+		
 	}
 
 	@When("user gets the title of the page")

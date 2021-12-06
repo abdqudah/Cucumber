@@ -2,12 +2,14 @@ package parallel;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.junit.Assert;
 
 import com.pages.AccountsPage;
 import com.pages.LoginPage;
 import com.qa.factory.DriverFactory;
+import com.qa.util.ConfigReader;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -18,6 +20,11 @@ public class AccountsPageSteps {
 	private LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
 	private AccountsPage accountsPage = new AccountsPage(DriverFactory.getDriver());
 
+	private ConfigReader configReader = new ConfigReader();
+    Properties prop = configReader.init_prop();
+
+    
+	// = configReader.init_prop();
 	@Given("user has already logged in to application")
 	public void user_has_already_logged_in_to_application(DataTable credTable) {
 
@@ -26,7 +33,7 @@ public class AccountsPageSteps {
 		String password = credList.get(0).get("password");
 
 		DriverFactory.getDriver()
-				.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+				.get(prop.getProperty("URL"));
 		//accountsPage = loginPage.doLogin(userName, password);
 		loginPage.doLogin(userName, password);
 	}

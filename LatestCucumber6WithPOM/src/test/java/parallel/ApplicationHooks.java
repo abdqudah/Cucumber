@@ -1,7 +1,10 @@
 package parallel;
 
+import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.junit.Assume;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -9,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.qa.factory.DriverFactory;
 import com.qa.util.ConfigReader;
+import com.qa.util.RestClient;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -22,26 +26,32 @@ public class ApplicationHooks {
     Properties prop;
     
     
-   /* @Before(value="@Skip", order = 0)
+    
+  @Before(value="@Skip", order = 0)
     public void skip_scenario(Scenario scenario){
         System.out.println("SKIP SCENARIO: " + scenario.getName());
         Assume.assumeTrue(false);
-    }*/
+    }
 
 	@Before(order = 1)
 	public void getProperty() {
 		configReader = new ConfigReader();
 		prop = configReader.init_prop();
 	}
+	
+	
 
 	@Before(order = 2)
-	public void launchBrowser() {
+	public void launchBrowser() throws ClientProtocolException, IOException {
 		String browserName = prop.getProperty("browser");
 		driverFactory = new DriverFactory();
 		driver = driverFactory.init_driver(browserName);
 		
+	
+		
 	}
 
+	
 	@After(order = 0)
 	public void quitBrowser() {
 		driver.quit();

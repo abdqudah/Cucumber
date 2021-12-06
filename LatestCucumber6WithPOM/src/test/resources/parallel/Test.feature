@@ -9,3 +9,4 @@ Feature: check the facebok
     Given user is on Accounts page
     When user gets the title of the page
     Then page title should be "My account - My Store"
+
