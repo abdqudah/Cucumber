@@ -40,7 +40,9 @@ public class LoginPageSteps {
 	public void user_is_on_login_page() throws ClientProtocolException, IOException  {
 
 		DriverFactory.getDriver()
-				.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+				.get("http://47.254.24.51:81/Mol/#/login\r\n"
+						+ "\r\n"
+						+ "");
 		
 		
 		serivceUrl = prop.getProperty("WebserviceURL");
